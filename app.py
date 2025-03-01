@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Form, Request,  HTTPException
 import json
 import httpx
+import asyncio
 
 app = FastAPI()
 button = None
@@ -24,4 +25,6 @@ async def slack_interactivity(request: Request, payload: str= Form(...)):
     
 @app.get("/get_value/")
 async def get_value():
+    while button is None:
+        await asyncio.sleep(0.5)
     return {"button_value": button}
